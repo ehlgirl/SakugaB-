@@ -1,5 +1,7 @@
 # SakugaB-
-makes navigating sakugabooru easier
+Makes navigating sakugabooru easier
+
+Sample video of the script: https://youtu.be/ZPkfhoO483o
 
 Hover over the star underneath the post and press 'ENTER'
 
