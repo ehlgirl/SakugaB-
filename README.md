@@ -1,4 +1,4 @@
-# SakugaB-
+# SakugaB++
 Makes navigating sakugabooru easier
 
 Sample video of the script: https://youtu.be/ZPkfhoO483o
