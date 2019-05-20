@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SakugaB++
 // @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.2.1
 // @description  Adds some useful features to sakugabooru :^)
 // @author       ehlboy
 // @match        https://www.sakugabooru.com/*
@@ -47,6 +47,7 @@ var addressValue = "";
 var addressChk = "";
 var urlPg;
 var thisPg;
+var sidebarFocus = false;
 
 //=======================================
 //               MAIN
@@ -59,6 +60,15 @@ $( "a.directlink" ).hover(function() {
     //console.log(addressValue);
 });
 
+$('input').focusin(function(){
+    //console.log("input focused");
+    sidebarFocus = true;
+});
+
+$('input').focusout(function(){
+    //console.log("input not focused");
+    sidebarFocus = false;
+});
 
 // keyboard shortcuts
 $(document).keydown(function(e){
@@ -76,35 +86,36 @@ $(document).keydown(function(e){
         //$('.content').prepend("<video id='genVid' width='848' height='480' controls='true' autoplay='true' loop='true' src='https://sakugabooru.com/data/bc85d98099710de00bbb31c92b46f40e.mp4' type='video/mp4'>Your browser does not support mp4 video. </video>");
     }
 
-
     // NAVIGATES PAGES
     //
-    // 'right arrow' or 'd' press down
-    if ( e.which == 39 || e.which == 68 ) {
-        //console.log('here');
-        thisPg = GetPgNum();
-        ++thisPg;
-        //console.log(thisPg);
-        LoadPgNum(thisPg);
-    }
-    // 'left arrow' or 'a' press down
-     if ( e.which == 37 || e.which == 65) {
-        //console.log('here');
-         thisPg = GetPgNum();
-        --thisPg;
-        if (thisPg < 1) {
-            thisPg = 1;
+    if (!sidebarFocus) {
+        // 'right arrow' or 'd' press down
+        if ( e.which == 39 || e.which == 68 ) {
+            //console.log('here');
+            thisPg = GetPgNum();
+            ++thisPg;
+            //console.log(thisPg);
+            LoadPgNum(thisPg);
         }
-        //console.log(thisPg);
-        LoadPgNum(thisPg);
-    }
+        // 'left arrow' or 'a' press down
+        if ( e.which == 37 || e.which == 65) {
+            //console.log('here');
+            thisPg = GetPgNum();
+            --thisPg;
+            if (thisPg < 1) {
+                thisPg = 1;
+            }
+            //console.log(thisPg);
+            LoadPgNum(thisPg);
+        }
 
-    // 'p' FOR DEBUG USE
-    /*
+        // 'p' FOR DEBUG USE
+        /*
     if ( e.which == 80 ) {
         console.log("Current Page #: " + GetPgNum());
     }
     */
+    }
 });
 
 //=======================================
