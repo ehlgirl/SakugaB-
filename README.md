@@ -14,3 +14,6 @@ Makes navigating sakugabooru easier
 * Settings gear icon at top right so you can customize hotkeys
 * infinite scroll
 * immediate redirect to post page instead of the main page (dunno if anyone actually wants this)
+#### Version Notes
+0.2.1
+* Fixed issue: Typing in search box doesn't activate Next/Previous page shortcuts
