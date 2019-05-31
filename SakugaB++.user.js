@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SakugaB++
 // @namespace    http://tampermonkey.net/
-// @version      0.2.1
+// @version      0.2.2
 // @description  Adds some useful features to sakugabooru :^)
 // @author       ehlboy
 // @match        https://www.sakugabooru.com/*
@@ -22,12 +22,12 @@
 //       FEATURES TO ADD
 // - right click to expand video?
 // - button to close expanded video
-// - "A" and "D" shortcuts to go next/previous page
+//
 //
 //
 //      KNOWN ISSUES
 // - disables left click on post image
-// - if you open to post page and click enter, will open duplicate empty vids inside post page
+// 
 //
 */
 
@@ -48,6 +48,22 @@ var addressChk = "";
 var urlPg;
 var thisPg;
 var sidebarFocus = false;
+
+//=======================================
+//               Style
+//=======================================
+
+$("<style>")
+    .prop("type", "text/css")
+    .html("\
+    .cbtn {\
+        color: white;\
+        background-color: #111;\
+        padding: .5em 1em,\
+        text-decoration: none,\
+        border: 0px,\
+    }")
+    .appendTo("head");
 
 //=======================================
 //               MAIN
@@ -82,8 +98,24 @@ $(document).keydown(function(e){
         //console.log("enter pressed");
         var generatedVid = VidLinkGen(addressValue);
         $("#genVid").remove();
-        $('.content').prepend(generatedVid);
-        //$('.content').prepend("<video id='genVid' width='848' height='480' controls='true' autoplay='true' loop='true' src='https://sakugabooru.com/data/bc85d98099710de00bbb31c92b46f40e.mp4' type='video/mp4'>Your browser does not support mp4 video. </video>");
+        $("#vidbar").remove();
+        $(".content").prepend("<div id='vidbar' style='width: 100%; height: 25px; display:flex ; margin: -2px 0px 25px 0px;'></div>");
+        $(".content").prepend("<div id='video'></div>");
+        $("#video").append(generatedVid);
+        $("#vidbar").append("<button class='cbtn' type='button' style='border:0px; width:-webkit-fill-available;' onclick='genVid.pause(); genVid.currentTime -= (1/24);'>Previous Frame ( , )</button>");
+        $("#vidbar").append("<button class='cbtn' type='button' style='border:0px; width:-webkit-fill-available;' onclick='genVid.pause(); genVid.currentTime += (1/24);'>Next Frame ( . )</button>");
+    }
+
+
+    if ( e.which == 190 ) {
+        //console.log("you pressed '.'");
+        genVid.pause();
+        genVid.currentTime += (1/24);
+    }
+    if ( e.which == 188 ) {
+        //console.log("you pressed ','");
+        genVid.pause();
+        genVid.currentTime -= (1/24);
     }
 
     // NAVIGATES PAGES
@@ -124,7 +156,7 @@ $(document).keydown(function(e){
 
 // returns video code to implement on page
 function VidLinkGen(RawLink) {
-	var myString = "<video id='genVid' width='848' height='480' controls='true' autoplay='true' loop='true' src='" + RawLink + "' type='video/mp4'>Your browser does not support mp4 video. </video>"
+	var myString = "<video id='genVid' width='100%' height='480' controls='true' autoplay='true' loop='true' src='" + RawLink + "' type='video/mp4'>Your browser does not support mp4 video. </video>"
     return myString
 };
 
@@ -152,3 +184,4 @@ function LoadPgNum (pgnum) {
     var fullURL = BOILER_URL + pgnum
     window.location.replace(fullURL);
 }
+
