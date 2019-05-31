@@ -16,6 +16,7 @@ Makes navigating sakugabooru easier
 * infinite scroll
 * immediate redirect to post page instead of the main page (dunno if anyone actually wants this)
 * X button on top right to close vid
+* DL button for ez saving
 #### Version Notes
 0.2.2
 * Added shortcuts ',' and '.' for previous/next frame. Also added relative buttons underneath the vid if that's your thing ;^)
